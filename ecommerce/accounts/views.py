@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.utils.http import is_safe_url
 from django.views.generic import CreateView, FormView
 from .models import GuestEmail
-from .forms import RegisterForm, LoginForm,GuestForm
+from .forms import RegisterForm, LoginForm, GuestForm, MerchantRegisterForm
 
 User = get_user_model()
 
@@ -55,6 +55,17 @@ class RegisterView(CreateView):
     form_class = RegisterForm
     template_name =  'accounts/register.html'
     success_url = '/login/'
+
+
+class MerchantRegisterView(CreateView):
+    form_class = MerchantRegisterForm
+    template_name = 'accounts/merchant_register.html'
+    success_url = '/login/'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Merchant Registration'
+        return context
     
     
 # def register_page(request):

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4><i class="fas fa-user-circle"></i> My Profile</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Account Information</h6>
+                            <p><strong>Email:</strong> {{ user.email }}</p>
+                            <p><strong>Full Name:</strong> {{ user.get_full_name|default:"Not provided" }}</p>
+                            <p><strong>Member Since:</strong> {{ user.timestamp|date:"F d, Y" }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Account Status</h6>
+                            <p><strong>Status:</strong> 
+                                {% if user.is_active %}
+                                    <span class="badge badge-success">Active</span>
+                                {% else %}
+                                    <span class="badge badge-secondary">Inactive</span>
+                                {% endif %}
+                            </p>
+                            <p><strong>Role:</strong>
+                                {% if user.is_admin %}
+                                    <span class="badge badge-danger">Admin</span>
+                                {% elif user.is_merchant %}
+                                    <span class="badge badge-success">Merchant</span>
+                                {% else %}
+                                    <span class="badge badge-primary">Customer</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6>Quick Actions</h6>
+                            <a href="#" class="btn btn-primary mr-2">Edit Profile</a>
+                            <a href="#" class="btn btn-secondary mr-2">Change Password</a>
+                            {% if user.is_merchant %}
+                                <a href="{% url 'merchants:dashboard' %}" class="btn btn-success">Merchant Dashboard</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6>Account Menu</h6>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="#" class="list-group-item list-group-item-action active">
+                        <i class="fas fa-user-circle"></i> Profile
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="fas fa-map-marker-alt"></i> Addresses
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="fas fa-history"></i> Order History
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                    {% if user.is_merchant %}
+                    <a href="{% url 'merchants:dashboard' %}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-store"></i> Merchant Dashboard
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3>Merchant Registration</h3>
+                    <p class="text-muted">Join as a merchant to sell your products</p>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="form-group">
+                            <label for="{{ form.full_name.id_for_label }}">Full Name</label>
+                            {{ form.full_name }}
+                            {% if form.full_name.errors %}
+                                <div class="text-danger">{{ form.full_name.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="{{ form.email.id_for_label }}">Email Address</label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <div class="text-danger">{{ form.email.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="{{ form.password1.id_for_label }}">Password</label>
+                            {{ form.password1 }}
+                            {% if form.password1.errors %}
+                                <div class="text-danger">{{ form.password1.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                            {{ form.password2 }}
+                            {% if form.password2.errors %}
+                                <div class="text-danger">{{ form.password2.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <small>
+                                <strong>As a merchant, you will be able to:</strong>
+                                <ul class="mb-0">
+                                    <li>Add and manage your products</li>
+                                    <li>Set prices and descriptions</li>
+                                    <li>Upload product images</li>
+                                    <li>Track your sales</li>
+                                </ul>
+                            </small>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Register as Merchant
+                        </button>
+                        
+                        <div class="text-center mt-3">
+                            <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+                            <p>Want to register as customer? <a href="{% url 'register' %}">Customer Registration</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

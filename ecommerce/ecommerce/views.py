@@ -9,7 +9,7 @@ def home_page(request):
         "content" : "you are viewing home page"
         }
     print("Session key - %s "%request.session.session_key)
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         context["premium"] = "Oh Yeahhhhhh"
     return render(request,"home_page.html",context)
 

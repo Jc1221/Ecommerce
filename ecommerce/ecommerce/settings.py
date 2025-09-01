@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'addresses',
     'billing',
     'carts',
+    'merchants',  # New merchants app
     'orders',
     'products',
     'search',

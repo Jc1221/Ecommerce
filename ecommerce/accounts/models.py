@@ -4,7 +4,7 @@ from django.contrib.auth.models import (
 	BaseUserManager
 	)
 class UserManager(BaseUserManager):
-	def create_user(self,email,full_name=None,password=None,is_staff=False,is_admin=False,is_active=False):
+	def create_user(self,email,full_name=None,password=None,is_staff=False,is_admin=False,is_merchant=False,is_active=False):
 		if not email:  
 			raise ValueError("User must have an email address")
 		if not password:  
@@ -20,12 +20,17 @@ class UserManager(BaseUserManager):
 		
 		user_obj.staff = is_staff
 		user_obj.admin = is_admin
+		user_obj.merchant = is_merchant
 		user_obj.active = is_active
 		user_obj.save(using=self._db)
 		return user_obj
 
 	def create_staffuser(self,email,full_name=None,password=None):
 		user = self.create_user(email,full_name=full_name,password=password,is_staff=True,is_active=True)
+		return user
+
+	def create_merchant(self,email,full_name=None,password=None):
+		user = self.create_user(email,full_name=full_name,password=password,is_merchant=True,is_active=True)
 		return user
 
 	
@@ -39,6 +44,7 @@ class User(AbstractBaseUser):
 	active		=	models.BooleanField(default=False)
 	staff		=	models.BooleanField(default=False)
 	admin		=	models.BooleanField(default=False)
+	merchant	=	models.BooleanField(default=False)  # New merchant field
 	timestamp	=	models.DateTimeField(auto_now_add=True)
 	
 	objects = UserManager()
@@ -64,6 +70,10 @@ class User(AbstractBaseUser):
 	@property
 	def is_admin(self):
 		return self.admin
+
+	@property
+	def is_merchant(self):
+		return self.merchant
 
 	@property
 	def is_active(self):

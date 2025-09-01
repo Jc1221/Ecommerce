@@ -11,7 +11,7 @@ class BillingProfileManager(models.Manager):
 		guest_email_id  =   request.session.get('guest_email_id')
 		obj = None
 		created = False
-		if user.is_authenticated():
+		if user.is_authenticated:
 			obj ,created = self.model.objects.get_or_create(user=user,email=user.email)
 		elif guest_email_id is not None:
 			guest_email_obj =   GuestEmail.objects.get(id=guest_email_id)
@@ -21,7 +21,7 @@ class BillingProfileManager(models.Manager):
 		return obj ,created
 
 class BillingProfile(models.Model):
-	user 		=	models.OneToOneField(User,blank=True,null=True)
+	user 		=	models.OneToOneField(User,blank=True,null=True,on_delete=models.CASCADE)
 	email 		=	models.EmailField()
 	active 		=	models.BooleanField(default=True)
 	update		=	models.DateTimeField(auto_now=True)
