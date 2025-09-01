@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load cart_extras %}
 {% block content %}
 <h1>Cart</h1>
 {% if cart.products.exists %}
@@ -22,11 +23,15 @@
 {% endfor %}
 <tr>
 <td colspan="2"></td>
-<td><b>Subtotal - </b>{{ cart.subtotal }}</td>
+<td><b>Subtotal - </b>${{ cart.subtotal }}</td>
 </tr>
 <tr>
 <td colspan="2"></td>
-<td><b>Total - </b>{{ cart.total }}</td>
+<td><b>GST (8%) - </b>${{ cart.subtotal|calculate_tax }}</td>
+</tr>
+<tr>
+<td colspan="2"></td>
+<td><b>Total - </b>${{ cart.total }}</td>
 </tr>
 <tr>
 <td colspan="2"></td>

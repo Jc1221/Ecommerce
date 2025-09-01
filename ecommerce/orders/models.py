@@ -34,6 +34,8 @@ class Order(models.Model):
     shipping_total      =   models.DecimalField(default=5.99,max_digits=100,decimal_places=2)
     total               =   models.DecimalField(default=0.00,max_digits=100,decimal_places=2)
     active              =   models.BooleanField(default=True)
+    timestamp           =   models.DateTimeField(auto_now_add=True)
+    updated             =   models.DateTimeField(auto_now=True)
 
     objects = OrderManager()
 

@@ -6,7 +6,6 @@ from .forms import AddressForm
 # Create your views here.
 def checkout_address_create_view(request):
     form = AddressForm(request.POST or None)
-    #context = {"form":form}
     next_   =   request.GET.get('next')
     next_path   =   request.POST.get('next')
     redirect_path = next_ or next_path or None
@@ -21,12 +20,16 @@ def checkout_address_create_view(request):
             instance.save()
             request.session[address_type+"_address_id"] = instance.id
             print(address_type+"_address_id")
+            
+            # Auto-proceed to next step instead of requiring "Use address" button
+            if is_safe_url(redirect_path,request.get_host()):
+                return redirect(redirect_path)
+            else:
+                return redirect("cart:checkout")
         else:
             print("Error")
             return redirect("cart:checkout")
 
-        if is_safe_url(redirect_path,request.get_host()):
-            return redirect(redirect_path)
     return redirect("cart:checkout")
 
 
@@ -44,8 +47,11 @@ def checkout_address_reuse_view(request):
                 qs = Address.objects.filter(billing_profile=billing_profile,id=shipping_address)
                 if qs.exists():
                     request.session[address_type+"_address_id"] = shipping_address
-                if is_safe_url(redirect_path,request.get_host()):
-                    return redirect(redirect_path)
+                    # Auto-proceed to next step after selecting address
+                    if is_safe_url(redirect_path,request.get_host()):
+                        return redirect(redirect_path)
+                    else:
+                        return redirect("cart:checkout")
     return redirect("cart:checkout")
 
 
