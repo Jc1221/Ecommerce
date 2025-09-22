@@ -159,3 +159,11 @@ local_settings.py
 *.key
 *.pem
 *.crt
+
+# Robot Framework test artifacts
+robot_tests/results/
+robot_tests/*.png
+robot_tests/selenium-screenshot-*.png
+robot_tests/output.xml
+robot_tests/log.html
+robot_tests/report.html
